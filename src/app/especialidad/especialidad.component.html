@@ -1,0 +1,56 @@
+<app-sidebar></app-sidebar>
+<p-panel header="Listar Especialidades">
+    <button pButton pRipple type="button" icon="pi pi-plus" label="Subir datos" (click)="showDialogCreate()"
+        class="p-button-outlined p-button-info h-12 sm:w-auto text-sm sm:text-base">
+    </button>
+    <p-table [value]="especialidades" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-especialidad>
+            <tr>
+                <td>{{ especialidad.id }}</td>
+                <td>{{ especialidad.name }}</td>
+                <td>
+                    <button pButton (click)="showDialogEdit(especialidad.id)" icon="pi pi-pencil"></button>
+                        <button pButton (click)="deleteEspecialidad(especialidad.id)" icon="pi pi-trash"
+                            class="p-button-danger"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<p-dialog header="{{titulo}}" [modal]="true" [(visible)]="visible"
+    [style]="{width: '90vw', maxWidth: '500px', fontSize: 'clamp(0.8rem, 2vw, 1.2rem)'}" styleClass="custom-dialog">
+    <ng-template pTemplate="header">
+        <div class="w-full flex justify-center items-center">
+            <div class="text-black font-bold text-center ml-4 text-xl sm:text-2xl">{{titulo}}</div>
+        </div>
+    </ng-template>
+
+    <div class="flex flex-col space-y-4">
+        <div class="flex-1">
+            <div class="flex flex-column gap-2">
+                <label for="especialidad" class="font-semibold text-white text-sm sm:text-base">Nombre</label>
+                <input pInputText [(ngModel)]="Especialidad.nombre" name="nombre" id="especialidad" class="w-full text-sm sm:text-base"
+                    autocomplete="off" aria-describedby="especialidad" />
+            </div>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex flex-col sm:flex-row justify-end gap-2">
+            <p-button label="Cancelar" styleClass="p-button-secondary w-full sm:w-auto text-xs sm:text-sm"
+                (click)="visible = false" />
+            <p-button [label]="opc" (click)="op === 0 ? addEspecialidad() : updateEspecialidad()" 
+                [disabled]="!Especialidad.nombre || Especialidad.nombre.trim() === ''"
+                styleClass="w-full sm:w-auto text-xs sm:text-sm" />
+        </div>
+    </ng-template>
+</p-dialog>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
